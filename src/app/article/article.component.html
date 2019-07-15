@@ -1,0 +1,12 @@
+<h1>{{article.title}} {{article.id}}</h1>
+
+<p>{{article.timestamp | date: 'HH:mm:ss'}}</p>
+<p>{{article.text}}</p>
+
+<button type="button" (click)="delete()">
+  Delete
+</button>
+
+<p>
+  Words #: {{ article.text | wordsCount}}
+</p>

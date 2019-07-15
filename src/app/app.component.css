@@ -1,0 +1,19 @@
+.dropdown {
+  padding: 10px;
+  border: 1px solid black;
+  position: absolute;
+  background: white;
+}
+
+.container {
+  position: relative;
+  display: inline-block;
+}
+
+.red {
+  color: red;
+}
+
+.large {
+  font-size: large;
+}

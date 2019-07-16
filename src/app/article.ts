@@ -3,4 +3,8 @@ export interface Article {
   title: string;
   text: string;
   timestamp: Date;
+  author: {
+    name: string;
+    email: string;
+  };
 }

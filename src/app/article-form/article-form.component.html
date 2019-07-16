@@ -1,0 +1,41 @@
+<form [formGroup]="articleForm" (ngSubmit)="save()">
+  <div>
+    <div>
+      <label for="title">Title:</label>
+      <input name="title" formControlName="title" type="text" placeholder="title">
+      <div *ngIf="articleForm.get('title').touched && articleForm.get('title').hasError('required')">Required!! Please fill it out!</div>
+    </div>
+    <div>
+      Text:
+      <input type="text" formControlName="text" placeholder="text">
+      <div *ngIf="articleForm.get('text').touched">
+        <div *ngIf="articleForm.get('text').hasError('required')">Required!! Please fill it out!</div>
+        <div *ngIf="articleForm.get('text').hasError('minlength')">
+          Please type more than {{ articleForm.get('text').getError('minlength').requiredLength }}
+        </div>
+      </div>
+    </div>
+    <div formGroupName="author">
+      <div>
+        Email:
+        <input type="email" formControlName="email" placeholder="email">
+        <div *ngIf="articleForm.get('author.email').touched">
+          <div *ngIf="articleForm.get('author.email').hasError('email')">
+            Please enter a valid email.
+          </div>
+          <div *ngIf="articleForm.get('author.email').hasError('required')">Required!! Please fill it out!</div>
+        </div>
+      </div>
+      <div>
+        Name:
+        <input type="text" formControlName="name" placeholder="name">
+        <div *ngIf="articleForm.get('author.name').touched">
+          <div *ngIf="articleForm.get('author.name').hasError('required')">Required!! Please fill it out!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button type="submit" [disabled]="articleForm.invalid">Create article</button>
+</form>
+<pre>{{ articleForm.value | json }}</pre>
+<pre>Is valid: {{ articleForm.valid }}</pre>

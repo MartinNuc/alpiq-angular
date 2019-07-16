@@ -4,15 +4,19 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import { ArticleComponent } from './article/article.component';
 import { WordsCountPipe } from './words-count.pipe';
+import { ArticleFormComponent } from './article-form/article-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     ArticleComponent,
-    WordsCountPipe
+    WordsCountPipe,
+    ArticleFormComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

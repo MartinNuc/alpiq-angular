@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Article } from './article';
+import { ArticleFormModel } from './article-form/article-form.component';
 
 @Component({
   selector: 'app-root',
@@ -39,13 +40,15 @@ export class AppComponent {
     this.dropDownOpened = !this.dropDownOpened;
   }
 
-  createNewArticle() {
+  createNewArticle(articleFromForm: ArticleFormModel) {
     this.articles.push({
       id: this.findUniqueId(),
-      text: 'this is text',
-      title: 'Title',
-      timestamp: new Date()
+      timestamp: new Date(),
+      ...articleFromForm
     });
+
+    const one = [1, 2, 3];
+    const two = [5, 6, 7, ...one];
   }
 
   findUniqueId() {

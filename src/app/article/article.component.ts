@@ -14,7 +14,8 @@ export class ArticleComponent implements OnInit {
   @Output()
   articleDelete = new EventEmitter<Article>();
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

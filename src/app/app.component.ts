@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Article } from './article';
-import { ArticleFormModel } from './article-form/article-form.component';
 
 @Component({
   selector: 'app-root',
@@ -18,37 +17,20 @@ export class AppComponent {
     large: false
   };
 
-  constructor() {
-    this.articles.push({
-      id: 1,
-      title: 'Politics in czech sux',
-      text: `Babis is still here!`,
-      timestamp: new Date()
-    });
-    this.articles.push({
-      id: 2,
-      title: 'Beautiful weather',
-      text: `finally it's here!`,
-      timestamp: new Date()
-    });
-  }
-
   increment() {
     this.counter++;
   }
+
   toggleDropdown() {
     this.dropDownOpened = !this.dropDownOpened;
   }
 
-  createNewArticle(articleFromForm: ArticleFormModel) {
+  createNewArticle(articleFromForm: Article) {
     this.articles.push({
       id: this.findUniqueId(),
       timestamp: new Date(),
       ...articleFromForm
     });
-
-    const one = [1, 2, 3];
-    const two = [5, 6, 7, ...one];
   }
 
   findUniqueId() {
@@ -61,9 +43,7 @@ export class AppComponent {
   }
 
   deleteArticle(article: Article) {
-    this.articles = this.articles.filter(
-      item => item !== article
-    );
+    this.articles = this.articles.filter(item => item !== article);
   }
 
   toggleColor() {

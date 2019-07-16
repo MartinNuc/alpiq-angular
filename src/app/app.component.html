@@ -7,22 +7,19 @@
 <hr>
 <hr>
 
-
-<div [ngClass]="styles">
-  {{ articles | json }}
-</div>
-
 <button type="button" (click)="toggleColor()">color</button>
 <button type="button" (click)="toggleLarge()">font size</button>
 
-<div *ngFor="let article of articles">
+<div *ngFor="let article of articlesService.articles">
   <app-article [article]="article"
                (articleDelete)="deleteArticle($event)"
   >
   </app-article>
 </div>
 
-<button type="button" (click)="createNewArticle()">create article</button>
+<div [ngClass]="styles">
+  {{ articlesService.articles | json }}
+</div>
 
 <hr>
 <hr>

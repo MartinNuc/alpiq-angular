@@ -1,5 +1,6 @@
+import { ArticlesService } from './services/articles.service';
 import { Component } from '@angular/core';
-import { Article } from './article';
+import { Article } from './models/article';
 
 @Component({
   selector: 'app-root',
@@ -10,12 +11,12 @@ export class AppComponent {
   counter = 0;
   dropDownOpened = false;
 
-  articles: Article[] = [];
-
   styles = {
     red: false,
     large: false
   };
+
+  constructor(public articlesService: ArticlesService) {}
 
   increment() {
     this.counter++;
@@ -26,24 +27,11 @@ export class AppComponent {
   }
 
   createNewArticle(articleFromForm: Article) {
-    this.articles.push({
-      id: this.findUniqueId(),
-      timestamp: new Date(),
-      ...articleFromForm
-    });
-  }
-
-  findUniqueId() {
-    const lastId = this.articles
-      .map(article => article.id)
-      .reduce((acc, curr) => {
-        return Math.max(acc, curr);
-      }, 0);
-    return lastId + 1;
+    this.articlesService.create(articleFromForm);
   }
 
   deleteArticle(article: Article) {
-    this.articles = this.articles.filter(item => item !== article);
+    this.articlesService.remove(article);
   }
 
   toggleColor() {

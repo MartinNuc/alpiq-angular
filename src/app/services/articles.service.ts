@@ -9,7 +9,7 @@ import { Article } from '../models/article';
 export class ArticlesService {
   articles: Article[] = [];
 
-  constructor(private sessionService: SessionService) { }
+  constructor(public sessionService: SessionService) { }
 
   public create(data: ArticleFormModel) {
     this.articles.push({

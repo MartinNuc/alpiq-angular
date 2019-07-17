@@ -1,4 +1,5 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Article } from './../../models/article';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 export interface ArticleFormModel {
@@ -15,8 +16,15 @@ export interface ArticleFormModel {
   templateUrl: './article-form.component.html',
   styleUrls: ['./article-form.component.css']
 })
-export class ArticleFormComponent implements OnInit {
+export class ArticleFormComponent {
   articleForm: FormGroup;
+
+  @Input()
+  set article(value: Article) {
+    if (value) {
+      this.articleForm.setValue(value);
+    }
+  }
 
   @Output()
   created = new EventEmitter<ArticleFormModel>();
@@ -31,8 +39,6 @@ export class ArticleFormComponent implements OnInit {
       })
     });
   }
-
-  ngOnInit() {}
 
   save() {
     if (this.articleForm.valid) {

@@ -1,6 +1,6 @@
 import { WordsCountPipe } from './words-count.pipe';
 
-fdescribe('WordsCountPipe', () => {
+describe('WordsCountPipe', () => {
   const pipe = new WordsCountPipe();
 
   it('create an instance', () => {

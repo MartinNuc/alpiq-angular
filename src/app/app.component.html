@@ -1,4 +1,18 @@
 
+<app-counter #xxx>
+  <button (click)="xxx.increment()">INC</button>
+  <pre>{{xxx.count}}</pre>
+  <button (click)="xxx.decrement()">DEC</button>
+</app-counter>
+
+
+<hr>
+<hr>
+<hr>
+<hr>
+
+
+
 
 <app-article-form (created)="createNewArticle($event)"></app-article-form>
 
@@ -15,6 +29,7 @@
                (articleDelete)="deleteArticle($event)"
   >
   </app-article>
+  <div *ngIf="error">{{error}}</div>
 </div>
 
 <div [ngClass]="styles">

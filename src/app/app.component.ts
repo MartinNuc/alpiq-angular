@@ -1,6 +1,8 @@
+import { CounterComponent } from './components/counter/counter.component';
 import { ArticlesService } from './services/articles.service';
-import { Component } from '@angular/core';
+import { Component, ViewChild, ViewChildren, QueryList } from '@angular/core';
 import { Article } from './models/article';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -11,12 +13,24 @@ export class AppComponent {
   counter = 0;
   dropDownOpened = false;
 
+  @ViewChildren(CounterComponent)
+  counterComponent: QueryList<CounterComponent>;
+
   styles = {
     red: false,
     large: false
   };
 
-  constructor(public articlesService: ArticlesService) {}
+  error: string;
+
+  constructor(
+    public articlesService: ArticlesService,
+    public snackbar: MatSnackBar
+  ) {
+    setInterval(() => {
+      this.counterComponent.first.increment();
+    }, 1000);
+  }
 
   increment() {
     this.counter++;
@@ -31,7 +45,14 @@ export class AppComponent {
   }
 
   deleteArticle(article: Article) {
-    this.articlesService.remove(article);
+    try {
+      this.articlesService.remove(article);
+    } catch (err) {
+      this.error = err.message;
+      this.snackbar.open(err.message, 'close', {
+        duration: 2000
+      });
+    }
   }
 
   toggleColor() {

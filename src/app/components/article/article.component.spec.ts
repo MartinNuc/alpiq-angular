@@ -4,7 +4,7 @@ import { ArticleComponent } from './article.component';
 import { WordsCountPipe } from 'src/app/pipes/words-count.pipe';
 import { By } from '@angular/platform-browser';
 
-fdescribe('ArticleComponent', () => {
+describe('ArticleComponent', () => {
   let component: ArticleComponent;
   let fixture: ComponentFixture<ArticleComponent>;
 

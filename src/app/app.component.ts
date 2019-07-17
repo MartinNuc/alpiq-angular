@@ -26,11 +26,7 @@ export class AppComponent {
   constructor(
     public articlesService: ArticlesService,
     public snackbar: MatSnackBar
-  ) {
-    setInterval(() => {
-      this.counterComponent.first.increment();
-    }, 1000);
-  }
+  ) {}
 
   increment() {
     this.counter++;

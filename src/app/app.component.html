@@ -1,8 +1,8 @@
 
 <app-counter #xxx>
-  <button (click)="xxx.increment()">INC</button>
-  <pre>{{xxx.count}}</pre>
-  <button (click)="xxx.decrement()">DEC</button>
+  <button (click)="xxx.increment()" data-test-app="incrementButton">INC</button>
+  <pre data-test-app="counter">{{xxx.count}}</pre>
+  <button (click)="xxx.decrement()" data-test-app="decrementButton">DEC</button>
 </app-counter>
 
 
@@ -24,7 +24,7 @@
 <button type="button" (click)="toggleColor()">color</button>
 <button type="button" (click)="toggleLarge()">font size</button>
 
-<div *ngFor="let article of articlesService.articles">
+<div *ngFor="let article of articlesService.articles" data-test-app="articleItem">
   <app-article [article]="article"
                (articleDelete)="deleteArticle($event)"
   >

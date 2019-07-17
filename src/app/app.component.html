@@ -1,7 +1,7 @@
-
+<app-articles-count></app-articles-count>
 <button type="button" (click)="emitValue()">emit value</button>
 
-{{ subj$ | async }}
+<span>{{ subj$ | async }}</span>
 
 
 <hr>
@@ -36,7 +36,7 @@
 <button type="button" (click)="toggleColor()">color</button>
 <button type="button" (click)="toggleLarge()">font size</button>
 
-<div *ngFor="let article of articlesService.articles" data-test-app="articleItem">
+<div *ngFor="let article of articles$ | async" data-test-app="articleItem">
   <app-article [article]="article"
                (articleDelete)="deleteArticle($event)"
   >
@@ -45,7 +45,7 @@
 </div>
 
 <div [ngClass]="styles">
-  {{ articlesService.articles | json }}
+  {{ articles$ | async | json }}
 </div>
 
 <hr>

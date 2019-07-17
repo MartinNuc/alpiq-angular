@@ -16,6 +16,8 @@ export class AppComponent implements OnInit {
 
   subj$ = new Subject();
 
+  articles$ = this.articlesService.articles$;
+
   @ViewChildren(CounterComponent)
   counterComponent: QueryList<CounterComponent>;
 
@@ -40,8 +42,14 @@ export class AppComponent implements OnInit {
     });
   }
 
+  async getValue() {
+    const x = await this.subj$.toPromise();
+    console.log(x);
+  }
+
   emitValue() {
     this.subj$.next(Math.random());
+    this.getValue();
   }
 
   increment() {

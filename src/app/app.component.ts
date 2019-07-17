@@ -1,17 +1,20 @@
 import { CounterComponent } from './components/counter/counter.component';
 import { ArticlesService } from './services/articles.service';
-import { Component, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { Component, ViewChildren, QueryList, OnInit } from '@angular/core';
 import { Article } from './models/article';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   counter = 0;
   dropDownOpened = false;
+
+  subj$ = new Subject();
 
   @ViewChildren(CounterComponent)
   counterComponent: QueryList<CounterComponent>;
@@ -26,7 +29,20 @@ export class AppComponent {
   constructor(
     public articlesService: ArticlesService,
     public snackbar: MatSnackBar
-  ) {}
+  ) {
+  }
+
+  ngOnInit() {
+    this.subj$.subscribe({
+      next(value) {
+        console.log('clicked!', value);
+      }
+    });
+  }
+
+  emitValue() {
+    this.subj$.next(Math.random());
+  }
 
   increment() {
     this.counter++;

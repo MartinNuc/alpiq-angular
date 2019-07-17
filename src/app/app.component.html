@@ -1,4 +1,16 @@
 
+<button type="button" (click)="emitValue()">emit value</button>
+
+{{ subj$ | async }}
+
+
+<hr>
+<hr>
+<hr>
+<hr>
+
+
+
 <app-counter #xxx>
   <button (click)="xxx.increment()" data-test-app="incrementButton">INC</button>
   <pre data-test-app="counter">{{xxx.count}}</pre>

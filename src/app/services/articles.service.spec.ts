@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { ArticlesService } from './articles.service';
 import { SessionService } from './session.service';
 
-describe('ArticlesService', () => {
+fdescribe('ArticlesService', () => {
   const dummyArticle = {
     author: {
       name: 'Martin',
@@ -14,6 +14,7 @@ describe('ArticlesService', () => {
   };
 
   let service: ArticlesService;
+  let sessionService: SessionService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -29,17 +30,33 @@ describe('ArticlesService', () => {
       ]
     });
     service = TestBed.get(ArticlesService);
-    service.create(dummyArticle);
+    sessionService = TestBed.get(SessionService);
+  });
+  describe('logged in user', () => {
+    beforeEach(() => {
+      spyOn(sessionService, 'isUserLoggedIn').and.returnValue(true);
+    });
+
+    it('should remove article when user is logged in', () => {
+      service.create(dummyArticle);
+      const firstArticle = service.articles[0];
+      service.remove(firstArticle);
+      expect(sessionService.isUserLoggedIn).toHaveBeenCalled();
+      expect(service.articles.length).toBe(0);
+    });
   });
 
-  it('should remove article when user is logged in', () => {
-    const sessionService: SessionService = TestBed.get(SessionService);
-    sessionService.isUserLoggedIn = () => true;
+  describe('logged out user', () => {
+    beforeEach(() => {
+      spyOn(sessionService, 'isUserLoggedIn').and.returnValue(false);
+    });
 
-    service.create(dummyArticle);
-    const firstArticle = service.articles[0];
-    service.remove(firstArticle);
-    expect(service.articles.length).toBe(0);
+    it('should remove article when user is NOT logged in', () => {
+      service.create(dummyArticle);
+      const firstArticle = service.articles[0];
+      expect(() => service.remove(firstArticle)).toThrowError();
+      expect(service.articles.length).toBe(1);
+    });
   });
 
   it('should be created', () => {
@@ -62,12 +79,5 @@ describe('ArticlesService', () => {
     ids.sort();
     const setOfIds = new Set(ids);
     expect(setOfIds.size).toBe(ids.length);
-  });
-
-  it('should remove article when user is NOT logged in', () => {
-    service.create(dummyArticle);
-    const firstArticle = service.articles[0];
-    expect(() => service.remove(firstArticle)).toThrowError();
-    expect(service.articles.length).toBe(1);
   });
 });

@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class SessionService {
-  user: User = null;
+  private user: User = null;
 
   isUserLoggedIn(): boolean {
     return !!this.user;

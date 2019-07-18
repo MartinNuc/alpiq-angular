@@ -2,6 +2,9 @@ import { TestBed } from '@angular/core/testing';
 
 import { ArticlesService } from './articles.service';
 import { SessionService } from './session.service';
+import { map, first } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { Article } from '../models/article';
 
 fdescribe('ArticlesService', () => {
   const dummyArticle = {
@@ -15,6 +18,7 @@ fdescribe('ArticlesService', () => {
 
   let service: ArticlesService;
   let sessionService: SessionService;
+  let articles$: Observable<Article[]>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -31,6 +35,7 @@ fdescribe('ArticlesService', () => {
     });
     service = TestBed.get(ArticlesService);
     sessionService = TestBed.get(SessionService);
+    articles$ = service.articles$.pipe(first());
   });
   describe('logged in user', () => {
     beforeEach(() => {
@@ -39,11 +44,11 @@ fdescribe('ArticlesService', () => {
 
     it('should remove article when user is logged in', async () => {
       service.create(dummyArticle);
-      let articles = await service.articles$.toPromise();
+      let articles = await articles$.toPromise();
       const firstArticle = articles[0];
       service.remove(firstArticle);
       expect(sessionService.isUserLoggedIn).toHaveBeenCalled();
-      articles = await service.articles$.toPromise();
+      articles = await articles$.toPromise();
       expect(articles.length).toBe(0);
     });
   });
@@ -53,11 +58,13 @@ fdescribe('ArticlesService', () => {
       spyOn(sessionService, 'isUserLoggedIn').and.returnValue(false);
     });
 
-    it('should remove article when user is NOT logged in', () => {
+    it('should remove article when user is NOT logged in', async() => {
       service.create(dummyArticle);
-      const firstArticle = service.articles[0];
+      let articles = await articles$.toPromise();
+      const firstArticle = articles[0];
       expect(() => service.remove(firstArticle)).toThrowError();
-      expect(service.articles.length).toBe(1);
+      articles = await articles$.toPromise();
+      expect(articles.length).toBe(1);
     });
   });
 
@@ -65,19 +72,22 @@ fdescribe('ArticlesService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should add an article', () => {
-    expect(service.articles.length).toBe(0);
+  it('should add an article', async() => {
+    const articles = await articles$.toPromise();
+    expect(articles.length).toBe(0);
     service.create(dummyArticle);
-    expect(service.articles.length).toBe(1);
-    expect(service.articles[0].text).toEqual(dummyArticle.text);
+    expect(articles.length).toBe(1);
+    expect(articles[0].text).toEqual(dummyArticle.text);
   });
 
-  it('should generate unique id when inserting multiple elements', () => {
+  it('should generate unique id when inserting multiple elements', async () => {
     service.create(dummyArticle);
     service.create(dummyArticle);
     service.create(dummyArticle);
     service.create(dummyArticle);
-    const ids = service.articles.map(item => item.id);
+    const ids = await articles$
+      .pipe(map(array => array.map(item => item.id)))
+      .toPromise();
     ids.sort();
     const setOfIds = new Set(ids);
     expect(setOfIds.size).toBe(ids.length);

@@ -8,7 +8,7 @@ import { ReplaySubject } from 'rxjs';
   providedIn: 'root'
 })
 export class ArticlesService {
-  articles: Article[] = [];
+  private articles: Article[] = [];
   private changes$ = new ReplaySubject<Article[]>(1);
 
   constructor(public sessionService: SessionService) {
@@ -36,7 +36,7 @@ export class ArticlesService {
     this.notifyChanges();
   }
 
-  notifyChanges() {
+  private notifyChanges() {
     this.changes$.next(this.articles);
   }
 

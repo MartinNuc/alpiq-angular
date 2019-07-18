@@ -37,12 +37,14 @@ fdescribe('ArticlesService', () => {
       spyOn(sessionService, 'isUserLoggedIn').and.returnValue(true);
     });
 
-    it('should remove article when user is logged in', () => {
+    it('should remove article when user is logged in', async () => {
       service.create(dummyArticle);
-      const firstArticle = service.articles[0];
+      let articles = await service.articles$.toPromise();
+      const firstArticle = articles[0];
       service.remove(firstArticle);
       expect(sessionService.isUserLoggedIn).toHaveBeenCalled();
-      expect(service.articles.length).toBe(0);
+      articles = await service.articles$.toPromise();
+      expect(articles.length).toBe(0);
     });
   });
 

@@ -1,3 +1,4 @@
+import { SessionService } from './services/session.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -26,7 +27,8 @@ import { CounterComponent } from './components/counter/counter.component';
     MatSnackBarModule,
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

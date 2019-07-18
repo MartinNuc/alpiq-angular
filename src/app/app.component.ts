@@ -3,7 +3,7 @@ import { ArticlesService } from './services/articles.service';
 import { Component, ViewChildren, QueryList, OnInit } from '@angular/core';
 import { Article } from './models/article';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -14,9 +14,11 @@ export class AppComponent implements OnInit {
   counter = 0;
   dropDownOpened = false;
 
-  subj$ = new Subject();
+  random$ = new Subject();
 
   articles$ = this.articlesService.articles$;
+
+  subscription: Subscription;
 
   @ViewChildren(CounterComponent)
   counterComponent: QueryList<CounterComponent>;
@@ -35,21 +37,15 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.subj$.subscribe({
+    this.subscription = this.random$.subscribe({
       next(value) {
         console.log('clicked!', value);
       }
     });
   }
 
-  async getValue() {
-    const x = await this.subj$.toPromise();
-    console.log(x);
-  }
-
   emitValue() {
-    this.subj$.next(Math.random());
-    this.getValue();
+    this.random$.next(Math.random());
   }
 
   increment() {
